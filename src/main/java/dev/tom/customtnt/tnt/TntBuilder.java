@@ -4,14 +4,15 @@ import de.tr7zw.changeme.nbtapi.NBTBlock;
 import dev.tom.customtnt.CustomTNT;
 import dev.tom.customtnt.Util;
 import dev.tom.customtnt.files.ConfigurableTNT;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 
 public class TntBuilder {
@@ -28,8 +29,9 @@ public class TntBuilder {
      * Only build all TNT items once and get from map later
      */
     public void buildAllItems(){
+        List<String> enabledTNTTypes = CustomTNT.getTntSettings().getEnabledTNTTypes().stream().map(String::toUpperCase).toList();
         for (TntType type : TntType.values()) {
-            boolean enabled = CustomTNT.getTntSettings().getEnabledTNTTypes().stream().map(String::toUpperCase).toList().contains(type.name());
+            boolean enabled = enabledTNTTypes.contains(type.name().toUpperCase());
             if(!enabled){
                 CustomTNT.getInstance().getLogger().severe("TNT type " + type.name() + " is not enabled in the config");
                 continue;
@@ -52,11 +54,20 @@ public class TntBuilder {
                 .filter(tnt -> tnt.name().equalsIgnoreCase(type.name())).findFirst().orElse(null);
         if(tntItem == null) return null;
 
+        MiniMessage mm = MiniMessage.miniMessage();
+
         ItemStack item = new ItemStack(tntItem.material(), 1);
         ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(tntItem.name());
-        meta.setLore(tntItem.lore());
-        meta.getPersistentDataContainer().set(TNT_ITEM_KEY, PersistentDataType.STRING, type.name()); // Set PDC for type retrieval later
+        meta.displayName(mm.deserialize(tntItem.name()));
+
+        // Deserialize lore from config
+        List<Component> lore = new ArrayList<>();
+        for (String s : tntItem.lore()) {
+            lore.add(mm.deserialize(s));
+        }
+        meta.lore(lore);
+        // Set PDC for type retrieval later
+        meta.getPersistentDataContainer().set(TNT_ITEM_KEY, PersistentDataType.STRING, type.name());
         item.setItemMeta(meta);
         return item;
     }

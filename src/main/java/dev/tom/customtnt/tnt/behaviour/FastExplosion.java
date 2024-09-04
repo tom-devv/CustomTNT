@@ -1,7 +1,5 @@
-package dev.tom.customtnt.tnt;
+package dev.tom.customtnt.tnt.behaviour;
 
-import dev.tom.customtnt.CustomTNT;
-import dev.tom.customtnt.files.ConfigurableTNT;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.TNTPrimed;

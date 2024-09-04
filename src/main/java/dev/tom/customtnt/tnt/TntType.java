@@ -1,5 +1,7 @@
 package dev.tom.customtnt.tnt;
 
+import dev.tom.customtnt.tnt.behaviour.*;
+
 public enum TntType {
 
     Huge("Huge", new Huge()),

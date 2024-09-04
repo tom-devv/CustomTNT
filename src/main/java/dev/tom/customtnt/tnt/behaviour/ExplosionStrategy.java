@@ -1,4 +1,4 @@
-package dev.tom.customtnt.tnt;
+package dev.tom.customtnt.tnt.behaviour;
 
 import org.bukkit.entity.TNTPrimed;
 

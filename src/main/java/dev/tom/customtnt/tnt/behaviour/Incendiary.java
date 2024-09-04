@@ -1,4 +1,4 @@
-package dev.tom.customtnt.tnt;
+package dev.tom.customtnt.tnt.behaviour;
 
 import dev.tom.customtnt.CustomTNT;
 import dev.tom.customtnt.Util;

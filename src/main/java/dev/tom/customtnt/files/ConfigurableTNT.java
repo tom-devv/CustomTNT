@@ -36,15 +36,15 @@ public class ConfigurableTNT {
     private Set<String> enabledTNTTypes = Set.of("Huge", "Chemical", "Lethal", "Incendiary", "Lucky", "Tactical", "Mimic", "Hex", "Silent");
     @Comment({"Configure all the TNT ItemStacks below, even if they are not enabled"})
     Set<TntItem> tnts = Set.of(
-            new TntItem("Huge", "Huge TNT", List.of("A huge explosion"), Material.TNT),
-            new TntItem("Chemical", "Chemical TNT", List.of("A chemical explosion"), Material.TNT),
-            new TntItem("Lethal", "Lethal TNT", List.of("A lethal explosion"), Material.TNT),
-            new TntItem("Incendiary", "Incendiary TNT", List.of("An incendiary explosion"), Material.TNT),
-            new TntItem("Lucky", "Lucky TNT", List.of("A lucky explosion"), Material.TNT),
-            new TntItem("Tactical", "Tactical TNT", List.of("A tactical explosion"), Material.TNT),
-            new TntItem("Mimic", "Mimic TNT", List.of("A mimic explosion"), Material.TNT),
-            new TntItem("Hex", "Hex TNT", List.of("A hex explosion"), Material.TNT),
-            new TntItem("Silent", "Silent TNT", List.of("A silent explosion"), Material.TNT)
+            new TntItem("Huge", "<rainbow>Huge TNT</rainbow>", List.of("<red>A huge explosion</red>"), Material.TNT),
+            new TntItem("Chemical", "<rainbow>Chemical TNT</rainbow>", List.of("<red>A chemical explosion</red>"), Material.TNT),
+            new TntItem("Lethal", "<rainbow>Lethal TNT</rainbow>", List.of("<red>A lethal explosion</red>"), Material.TNT),
+            new TntItem("Incendiary", "<rainbow>Incendiary TNT</rainbow>", List.of("<red>An incendiary explosion</red>"), Material.TNT),
+            new TntItem("Lucky", "<rainbow>Lucky TNT</rainbow>", List.of("<red>A lucky explosion</red>"), Material.TNT),
+            new TntItem("Tactical", "<rainbow>Tactical TNT</rainbow>", List.of("<red>A tactical explosion</red>"), Material.TNT),
+            new TntItem("Mimic", "<rainbow>Mimic TNT</rainbow>", List.of("<red>A mimic explosion</red>"), Material.TNT),
+            new TntItem("Hex", "<rainbow>Hex TNT</rainbow>", List.of("<red>A hex explosion</red>"), Material.TNT),
+            new TntItem("Silent", "<rainbow>Silent TNT</rainbow>", List.of("<red>A silent explosion</red>"), Material.TNT)
     );
 
     // Configuration record(s) for Custom TNT types

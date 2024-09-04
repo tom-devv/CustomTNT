@@ -1,10 +1,12 @@
-package dev.tom.customtnt.tnt;
+package dev.tom.customtnt.tnt.behaviour;
 
 import org.bukkit.entity.TNTPrimed;
 
-public class Tactical implements ExplosionStrategy{
+public class Lucky implements ExplosionStrategy {
     @Override
     public void explode(TNTPrimed tnt) {
 
     }
+
+
 }
