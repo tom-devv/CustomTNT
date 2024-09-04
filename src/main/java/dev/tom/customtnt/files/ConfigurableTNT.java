@@ -5,6 +5,7 @@ import de.exlll.configlib.Configuration;
 import org.bukkit.Material;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.util.Vector;
 
 import java.util.List;
 import java.util.Map;
@@ -61,6 +62,29 @@ public class ConfigurableTNT {
     public record Lethal(int fastExplosionsCount){}
     Lethal lethal = new Lethal(5);
 
+    public record Huge(Set<Vector> guaranteedExplosionVectors, Set<Vector> possibleExplosionsVectors, Set<Vector> alternativeExplosionVectors){}
+    @Comment({"If you're confused by this, don't worry I was too! It seems as if we should randomly choose"
+            + "between the possibleExplosionsVectors and alternativeExplosionVectors, but I'm not sure why!"
+            + "The default values are the ones that were used originally (Note: only one set of the two possibilities is chosen)"
+    })
+    Huge huge = new Huge(
+            Set.of(
+            new Vector(0, 3, 0),
+            new Vector(0, -3, 0)
+            ),
+            Set.of(
+                new Vector(3, 0, 0),
+                new Vector(0,0,3)
+            ),
+            Set.of(
+                new Vector(-3,0,0),
+                new Vector(0,0,-3)
+            )
+    );
+
+    public Huge getHuge() {
+        return huge;
+    }
 
     public Lethal getLethal() {
         return lethal;

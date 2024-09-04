@@ -8,7 +8,9 @@ public class Lethal implements ExplosionStrategy {
     @Override
     public void explode(TNTPrimed tnt) {
         ConfigurableTNT.Lethal lethal = CustomTNT.getTntSettings().getLethal();
-        FastExplosion fastExplosion = new FastExplosion(lethal.fastExplosionsCount());
-        fastExplosion.explode(tnt);
+        FastExplosion fastExplosion = new FastExplosion();
+        for (int i = 0; i < lethal.fastExplosionsCount(); i++) {
+            fastExplosion.explode(tnt);
+        }
     }
 }
