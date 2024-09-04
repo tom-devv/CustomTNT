@@ -1,0 +1,77 @@
+package dev.tom.customtnt.tnt;
+
+import de.tr7zw.changeme.nbtapi.NBTBlock;
+import dev.tom.customtnt.CustomTNT;
+import dev.tom.customtnt.Util;
+import dev.tom.customtnt.files.ConfigurableTNT;
+import org.bukkit.NamespacedKey;
+import org.bukkit.block.Block;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataType;
+
+import java.util.HashMap;
+import java.util.Map;
+
+
+public class TntBuilder {
+
+    public static Map<String, ItemStack> tntItems = new HashMap<>();
+    public static String NBT_KEY = "custom-tnt";
+    public static NamespacedKey TNT_ITEM_KEY;
+
+    public TntBuilder(CustomTNT plugin) {
+        TNT_ITEM_KEY = new NamespacedKey(plugin, NBT_KEY);
+    }
+
+    /**
+     * Only build all TNT items once and get from map later
+     */
+    public void buildAllItems(){
+        for (TntType type : TntType.values()) {
+            boolean enabled = CustomTNT.getTntSettings().getEnabledTNTTypes().stream().map(String::toUpperCase).toList().contains(type.name());
+            if(!enabled){
+                CustomTNT.getInstance().getLogger().severe("TNT type " + type.name() + " is not enabled in the config");
+                continue;
+            }
+            ItemStack item = toItemStack(type);
+            if(item == null) continue;
+            tntItems.put(type.name(), item);
+        }
+    }
+
+    /**
+     * Create an ItemStack for the given TNT type
+     * @param type
+     * @return
+     */
+    private ItemStack toItemStack(TntType type){
+
+        // Get the TNT item settings from the config
+        ConfigurableTNT.TntItem tntItem = CustomTNT.getTntSettings().getTnts().stream()
+                .filter(tnt -> tnt.name().equalsIgnoreCase(type.name())).findFirst().orElse(null);
+        if(tntItem == null) return null;
+
+        ItemStack item = new ItemStack(tntItem.material(), 1);
+        ItemMeta meta = item.getItemMeta();
+        meta.setDisplayName(tntItem.name());
+        meta.setLore(tntItem.lore());
+        meta.getPersistentDataContainer().set(TNT_ITEM_KEY, PersistentDataType.STRING, type.name()); // Set PDC for type retrieval later
+        item.setItemMeta(meta);
+        return item;
+    }
+
+    /**
+     * Utility to retrieve a TnType from an ItemStack
+      * @param item
+     * @return the TntType of the ItemStack
+     */
+    public static TntType itemToTntType(ItemStack item){
+        ItemMeta meta = item.getItemMeta();
+        String value = meta.getPersistentDataContainer().get(TNT_ITEM_KEY, PersistentDataType.STRING);
+        return Util.isValidEnum(TntType.class, value) ? TntType.valueOf(value) : null;
+    }
+
+
+
+}
