@@ -1,11 +1,15 @@
 package dev.tom.customtnt.tnt.behaviour;
 
+import dev.tom.customtnt.CustomTNT;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.TNTPrimed;
 import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.event.entity.EntityExplodeEvent;
+import org.bukkit.metadata.FixedMetadataValue;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -14,8 +18,9 @@ import java.util.Set;
  */
 public class FastExplosion implements ExplosionStrategy {
 
-    private boolean onlyAir;
-    private Set<Material> nonSolidBlocks;
+    static String FAST_KEY = "fast";
+    private boolean onlyAir = true;
+    private Set<Material> nonSolidBlocks = Set.of(Material.AIR, Material.SAND, Material.WATER, Material.LAVA);
 
     public FastExplosion(boolean onlyAir, Set<Material> nonSolidBlocks){
         this.onlyAir = onlyAir;
@@ -33,15 +38,16 @@ public class FastExplosion implements ExplosionStrategy {
 
     public void explode(Location loc){
         Material type = loc.getBlock().getType();
-        if((onlyAir && type != Material.AIR) || !this.nonSolidBlocks.contains(type)) return;
+        if ((onlyAir && type != Material.AIR) || !this.nonSolidBlocks.contains(type)) return;
         loc.getWorld().spawnEntity(loc, EntityType.TNT, CreatureSpawnEvent.SpawnReason.CUSTOM, (e -> {
             TNTPrimed primed = (TNTPrimed) e;
             primed.setFuseTicks(0);
+            primed.setMetadata(FAST_KEY, new FixedMetadataValue(CustomTNT.getInstance(), true));
         }));
     }
 
     @Override
-    public void explode(TNTPrimed tnt) {
+    public void explode(TNTPrimed tnt, EntityExplodeEvent e) {
         explode(tnt.getLocation());
     }
 }

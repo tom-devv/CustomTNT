@@ -8,10 +8,11 @@ import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.TNTPrimed;
+import org.bukkit.event.entity.EntityExplodeEvent;
 
 public class Incendiary implements ExplosionStrategy {
     @Override
-    public void explode(TNTPrimed tnt) {
+    public void explode(TNTPrimed tnt, EntityExplodeEvent e) {
        ConfigurableTNT.Incendiary settings = CustomTNT.getTntSettings().getIncendiary();
         Location l = tnt.getLocation();
         l.getWorld().playEffect(l, Effect.MOBSPAWNER_FLAMES, settings.flameCount());

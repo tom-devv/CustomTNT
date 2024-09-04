@@ -4,7 +4,7 @@ import org.bukkit.entity.TNTPrimed;
 
 public class Lucky implements ExplosionStrategy {
     @Override
-    public void explode(TNTPrimed tnt) {
+    public void explode(TNTPrimed tnt, EntityExplodeEvent e) {
 
     }
 

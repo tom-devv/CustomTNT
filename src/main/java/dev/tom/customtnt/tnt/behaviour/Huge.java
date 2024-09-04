@@ -3,6 +3,7 @@ package dev.tom.customtnt.tnt.behaviour;
 import dev.tom.customtnt.CustomTNT;
 import dev.tom.customtnt.files.ConfigurableTNT;
 import org.bukkit.entity.TNTPrimed;
+import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.util.Vector;
 
 import java.util.Set;
@@ -10,7 +11,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Huge implements ExplosionStrategy{
     @Override
-    public void explode(TNTPrimed tnt) {
+    public void explode(TNTPrimed tnt, EntityExplodeEvent e) {
         ConfigurableTNT.Huge huge = CustomTNT.getTntSettings().getHuge();
         FastExplosion explosion = new FastExplosion();
         // Guaranteed explosions
@@ -19,5 +20,10 @@ public class Huge implements ExplosionStrategy{
         }
         // Random explosions
         Set<Vector> chosen = ThreadLocalRandom.current().nextBoolean() ? huge.alternativeExplosionVectors() : huge.possibleExplosionsVectors();
+
+        for (Vector vec : chosen) {
+            explosion.explode(tnt.getLocation().clone().add(vec));
+        }
+
     }
 }

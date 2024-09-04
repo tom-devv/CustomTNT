@@ -2,6 +2,9 @@ package dev.tom.customtnt.tnt;
 
 import dev.tom.customtnt.tnt.behaviour.*;
 
+/**
+ * Enum representing the different types of TNT available in the plugin
+ */
 public enum TntType {
 
     Huge("Huge", new Huge()),
@@ -28,6 +31,16 @@ public enum TntType {
 
     public String getFriendlyName() {
         return friendlyName;
+    }
+
+
+    public static TntType fromString(String s){
+        for(TntType type : TntType.values()){
+            if(type.getFriendlyName().equalsIgnoreCase(s)){
+                return type;
+            }
+        }
+        return null;
     }
 
 }

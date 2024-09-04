@@ -3,12 +3,12 @@ package dev.tom.customtnt.files;
 import de.exlll.configlib.Comment;
 import de.exlll.configlib.Configuration;
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -81,6 +81,23 @@ public class ConfigurableTNT {
                 new Vector(0,0,-3)
             )
     );
+
+    public record Hex(long hexBlockExpiryTime, long timeUntilBlockCanExplode, int maxRandomTicksUntilBlockExplodes, int hexParticleCount, Particle hexParticle, double particleOffsetX, double particleOffsetY, double particleOffsetZ){}
+    @Comment({"Expiry time and time to explode are in ticks (20 ticks = 1 second)" +
+            "The random ticks until block explodes is the max number of ticks to wait (2 + this number) after the hex block was" +
+            "hit with an explosion until it explodes" })
+    Hex hex = new Hex(600, 60, 8,10, Particle.HAPPY_VILLAGER, 0.5, 0.5, 0.5);
+
+    public record Silent(int silentRadius){}
+    Silent silent = new Silent(16);
+
+    public Silent getSilent() {
+        return silent;
+    }
+
+    public Hex getHex() {
+        return hex;
+    }
 
     public Huge getHuge() {
         return huge;

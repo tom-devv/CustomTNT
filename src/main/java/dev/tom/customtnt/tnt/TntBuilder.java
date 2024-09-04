@@ -37,7 +37,9 @@ public class TntBuilder {
                 continue;
             }
             ItemStack item = toItemStack(type);
-            if(item == null) continue;
+            if(item == null) {
+                continue;
+            }
             tntItems.put(type.name(), item);
         }
     }
@@ -51,7 +53,7 @@ public class TntBuilder {
 
         // Get the TNT item settings from the config
         ConfigurableTNT.TntItem tntItem = CustomTNT.getTntSettings().getTnts().stream()
-                .filter(tnt -> tnt.name().equalsIgnoreCase(type.name())).findFirst().orElse(null);
+                .filter(tnt -> tnt.type().equalsIgnoreCase(type.name())).findFirst().orElse(null);
         if(tntItem == null) return null;
 
         MiniMessage mm = MiniMessage.miniMessage();
@@ -80,7 +82,11 @@ public class TntBuilder {
     public static TntType itemToTntType(ItemStack item){
         ItemMeta meta = item.getItemMeta();
         String value = meta.getPersistentDataContainer().get(TNT_ITEM_KEY, PersistentDataType.STRING);
-        return Util.isValidEnum(TntType.class, value) ? TntType.valueOf(value) : null;
+        return TntType.fromString(value);
+    }
+
+    public static ItemStack getItem(TntType type){
+        return tntItems.get(type.name());
     }
 
 

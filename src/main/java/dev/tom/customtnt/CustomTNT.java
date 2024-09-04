@@ -3,6 +3,9 @@ package dev.tom.customtnt;
 import de.exlll.configlib.ConfigLib;
 import de.exlll.configlib.YamlConfigurationProperties;
 import de.exlll.configlib.YamlConfigurations;
+import dev.jorel.commandapi.CommandAPI;
+import dev.jorel.commandapi.CommandAPIBukkitConfig;
+import dev.tom.customtnt.commands.TntCommands;
 import dev.tom.customtnt.files.ConfigurableTNT;
 import dev.tom.customtnt.listeners.TntExplosionListeners;
 import dev.tom.customtnt.listeners.TntPlaceListeners;
@@ -20,14 +23,22 @@ public final class CustomTNT extends JavaPlugin {
     private static CustomTNT instance;
 
     @Override
+    public void onLoad() {
+        CommandAPI.onLoad(new CommandAPIBukkitConfig(this).silentLogs(true));
+        new TntCommands().registerCommands(this);
+    }
+
+    @Override
     public void onEnable() {
         instance = this;
+        CommandAPI.onEnable();
 
         try {
             loadConfig();
         }catch (IOException e){
             getLogger().severe("Failed to load config file: " + e.getMessage());
         }
+
 
         // Load all TNT items
         new TntBuilder(this).buildAllItems();
@@ -58,7 +69,7 @@ public final class CustomTNT extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        CommandAPI.onDisable();
     }
 
     public static ConfigurableTNT getTntSettings() {

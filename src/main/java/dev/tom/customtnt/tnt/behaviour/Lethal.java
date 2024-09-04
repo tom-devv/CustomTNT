@@ -6,7 +6,7 @@ import org.bukkit.entity.TNTPrimed;
 
 public class Lethal implements ExplosionStrategy {
     @Override
-    public void explode(TNTPrimed tnt) {
+    public void explode(TNTPrimed tnt, EntityExplodeEvent e) {
         ConfigurableTNT.Lethal lethal = CustomTNT.getTntSettings().getLethal();
         FastExplosion fastExplosion = new FastExplosion();
         for (int i = 0; i < lethal.fastExplosionsCount(); i++) {

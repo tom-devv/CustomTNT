@@ -2,6 +2,7 @@ package dev.tom.customtnt.tnt;
 
 import de.tr7zw.changeme.nbtapi.NBTBlock;
 import dev.tom.customtnt.Util;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.TNTPrimed;
@@ -37,8 +38,9 @@ public class TntHandler {
     public static TntType get(Block block){
         NBTBlock nbtBlock = new NBTBlock(block);
         String value = nbtBlock.getData().getString(TntBuilder.NBT_KEY);
-        if(Util.isValidEnum(TntType.class, value)) {
-            return TntType.valueOf(value);
+        TntType type = TntType.fromString(value);
+        if(value != null) {
+            return type;
         } else {
             return null;
         }
@@ -59,9 +61,11 @@ public class TntHandler {
         }
     }
 
-//    public static boolean tryHandle(TNTPrimed primed){
-//
-//    }
+    public static void wipe(Block block){
+        if(!block.getType().equals(Material.TNT)) return;
+        NBTBlock nbtBlock = new NBTBlock(block);
+        nbtBlock.getData().removeKey(TntBuilder.NBT_KEY);
+    }
 
 
 
