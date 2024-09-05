@@ -34,7 +34,7 @@ public class ConfigurableTNT {
      * such as enabled TNT types and their ItemStack props
      */
     @Comment({"List of enabled TNT types"})
-    private Set<String> enabledTNTTypes = Set.of("Huge", "Chemical", "Lethal", "Incendiary", "Lucky", "Tactical", "Mimic", "Hex", "Silent");
+    private Set<String> enabledTntTypes = Set.of("Huge", "Chemical", "Lethal", "Incendiary", "Lucky", "Tactical", "Mimic", "Hex", "Silent");
     @Comment({"Configure all the TNT ItemStacks below, even if they are not enabled"})
     Set<TntItem> tnts = Set.of(
             new TntItem("Huge", "<rainbow>Huge TNT</rainbow>", List.of("<red>A huge explosion</red>"), Material.TNT),
@@ -54,11 +54,12 @@ public class ConfigurableTNT {
     Incendiary incendiary = new Incendiary(50, 8, 180, List.of("<red>You are on fire by incendiary TNT!!!</red>"), 12);
 
     public record Chemical(int nearbyRadius, Set<PotionEffect> potions, List<String> hitWithPotionMessage, boolean poisonCloudEffect, Particle cloudParticle, long cloudDuration, int cloudParticles){}
-    @Comment({"Cloud-duration is in ticks (20 ticks = 1 second)" +
-            "Nearby radius is the radius around the TNT where the potion effects will be applied" +
-            "The cloud particles are the number of particles to spawn in the cloud" +
-            "The cloud particle is the particle type to spawn in the cloud, the cloud is a visual representation of the effect" +
-            "of the chemical tnt that just exploded, all players within the radius (defined by nearby-radius) will be hit with the potion effects"})
+    @Comment({"""
+            Cloud-duration is in ticks (20 ticks = 1 second)
+            Nearby radius is the radius around the TNT where the potion effects will be applied
+            The cloud particles are the number of particles to spawn in the cloud
+            The cloud particle is the particle type to spawn in the cloud, the cloud is a visual representation of the effect
+            of the chemical tnt that just exploded, all players within the radius (defined by nearby-radius) will be hit with the potion effects"""})
     Chemical chemical = new Chemical(8, Set.of(
             new PotionEffect(PotionEffectType.POISON, 100, 1),
             new PotionEffect(PotionEffectType.BLINDNESS, 100, 1)
@@ -68,9 +69,10 @@ public class ConfigurableTNT {
     Lethal lethal = new Lethal(5);
 
     public record Huge(Set<Vector> guaranteedExplosionVectors, Set<Vector> possibleExplosionsVectors, Set<Vector> alternativeExplosionVectors){}
-    @Comment({"If you're confused by this, don't worry I was too! It seems as if we should randomly choose"
-            + "between the possibleExplosionsVectors and alternativeExplosionVectors, but I'm not sure why!"
-            + "The default values are the ones that were used originally (Note: only one set of the two possibilities is chosen)"
+    @Comment({"""
+            Plugin chooses randomly
+            between the possibleExplosionsVectors and alternativeExplosionVectors
+            The default values are the ones that were used originally (Note: only one set of the two possibilities is chosen)"""
     })
     Huge huge = new Huge(
             Set.of(
@@ -88,9 +90,10 @@ public class ConfigurableTNT {
     );
 
     public record Hex(long hexBlockExpiryTime, int maxRandomTicksUntilBlockExplodes, int hexParticleCount, Particle hexParticle, double particleOffsetX, double particleOffsetY, double particleOffsetZ){}
-    @Comment({"Expiry time and time to explode are in ticks (20 ticks = 1 second)" +
-            "The random ticks until block explodes is the max number of ticks to wait (2 + this number) after the hex block was" +
-            "hit with an explosion until it explodes" })
+    @Comment({"""
+            Expiry time and time to explode are in ticks (20 ticks = 1 second)
+            max-random-ticks-until-block-explodes is the delay offset between a hexed
+            block being exploded again by another explosion and when the second explosion on it occurs, keep this number quite small ( < 10)"""})
     Hex hex = new Hex(600, 8,10, Particle.HAPPY_VILLAGER, 0.5, 0.5, 0.5);
 
     public record Silent(boolean nothing){}
@@ -134,6 +137,6 @@ public class ConfigurableTNT {
     }
 
     public Set<String> getEnabledTNTTypes() {
-        return enabledTNTTypes;
+        return enabledTntTypes;
     }
 }
