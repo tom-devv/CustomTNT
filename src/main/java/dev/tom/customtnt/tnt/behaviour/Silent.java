@@ -2,16 +2,11 @@ package dev.tom.customtnt.tnt.behaviour;
 
 import dev.tom.customtnt.CustomTNT;
 import dev.tom.customtnt.files.ConfigurableTNT;
-import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
 import org.bukkit.entity.TNTPrimed;
 import org.bukkit.event.entity.EntityExplodeEvent;
-
-import java.util.List;
 
 public class Silent implements ExplosionStrategy {
 
