@@ -1,6 +1,7 @@
 package dev.tom.customtnt;
 
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -8,18 +9,18 @@ import java.util.List;
 public class Util {
 
 
-    public static void sendParsed(Player p, List<String> m){
+    public static void sendParsed(CommandSender p, List<String> m){
         MiniMessage mm = MiniMessage.miniMessage();
         for (String s : m) {
             p.sendMessage(mm.deserialize(s));
         }
     }
 
-    public static void sendParsed(Player p, String... m) {
+    public static void sendParsed(CommandSender p, String... m) {
         sendParsed(p, List.of(m));
     }
 
-    public static void sendParsed(Player p, String m){
+    public static void sendParsed(CommandSender p, String m){
         sendParsed(p, new String[]{m});
     }
 

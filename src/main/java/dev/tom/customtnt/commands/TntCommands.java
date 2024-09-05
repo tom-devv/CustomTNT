@@ -30,7 +30,7 @@ public class TntCommands  {
         Reflections cmdReflections = new Reflections("dev.tom.customtnt.commands");
         Set<Class<? extends TntSubCommand>> subCommandClasses = cmdReflections.getSubTypesOf(TntSubCommand.class);
         for (Class<? extends TntSubCommand> subCommand : subCommandClasses) {
-            TntSubCommand subCommandInstance = null;
+            TntSubCommand subCommandInstance;
             try {
                 subCommandInstance = subCommand.getDeclaredConstructor().newInstance();
                 subs.add(subCommandInstance.getSubCommand());

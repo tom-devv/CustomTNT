@@ -13,12 +13,10 @@ public class TntExplosionListeners implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onEntityExplode(EntityExplodeEvent e) {
         if(!(e.getEntity() instanceof TNTPrimed primed)) return;
+        Hex.hexExplode(e); // Call hex explode for EVERY tnt
         TntType type = TntHandler.get(primed);
-        if (type == null) {
-            Hex.hexExplode(e);
-        } else {
-            type.getExplosionStrategy().explode(primed, e);
-        }
+        if (type == null) return;
+        type.getExplosionStrategy().explode(primed, e);
     }
 
 }

@@ -53,11 +53,16 @@ public class ConfigurableTNT {
     @Comment({"Configuration options for custom TNT types"}) // Comment here as this is top of list
     Incendiary incendiary = new Incendiary(50, 8, 180, List.of("<red>You are on fire by incendiary TNT!!!</red>"), 12);
 
-    public record Chemical(int nearbyRadius, Set<PotionEffect> potions, List<String> hitWithPotionMessage){}
+    public record Chemical(int nearbyRadius, Set<PotionEffect> potions, List<String> hitWithPotionMessage, boolean poisonCloudEffect, Particle cloudParticle, long cloudDuration, int cloudParticles){}
+    @Comment({"Cloud-duration is in ticks (20 ticks = 1 second)" +
+            "Nearby radius is the radius around the TNT where the potion effects will be applied" +
+            "The cloud particles are the number of particles to spawn in the cloud" +
+            "The cloud particle is the particle type to spawn in the cloud, the cloud is a visual representation of the effect" +
+            "of the chemical tnt that just exploded, all players within the radius (defined by nearby-radius) will be hit with the potion effects"})
     Chemical chemical = new Chemical(8, Set.of(
             new PotionEffect(PotionEffectType.POISON, 100, 1),
             new PotionEffect(PotionEffectType.BLINDNESS, 100, 1)
-    ), List.of("<red>You have been hit with a chemical TNT!!!</red>"));
+    ), List.of("<red>You have been hit with a chemical TNT!!!</red>"), true, Particle.SNEEZE, 50, 100);
 
     public record Lethal(int fastExplosionsCount){}
     Lethal lethal = new Lethal(5);
@@ -82,14 +87,23 @@ public class ConfigurableTNT {
             )
     );
 
-    public record Hex(long hexBlockExpiryTime, long timeUntilBlockCanExplode, int maxRandomTicksUntilBlockExplodes, int hexParticleCount, Particle hexParticle, double particleOffsetX, double particleOffsetY, double particleOffsetZ){}
+    public record Hex(long hexBlockExpiryTime, int maxRandomTicksUntilBlockExplodes, int hexParticleCount, Particle hexParticle, double particleOffsetX, double particleOffsetY, double particleOffsetZ){}
     @Comment({"Expiry time and time to explode are in ticks (20 ticks = 1 second)" +
             "The random ticks until block explodes is the max number of ticks to wait (2 + this number) after the hex block was" +
             "hit with an explosion until it explodes" })
-    Hex hex = new Hex(600, 60, 8,10, Particle.HAPPY_VILLAGER, 0.5, 0.5, 0.5);
+    Hex hex = new Hex(600, 8,10, Particle.HAPPY_VILLAGER, 0.5, 0.5, 0.5);
 
-    public record Silent(int silentRadius){}
-    Silent silent = new Silent(16);
+    public record Silent(boolean nothing){}
+    @Comment({"No configuration options for Silent TNT yet, the value below is just a placeholder"})
+    Silent silent = new Silent(true);
+
+    public record Mimic(int numberOfExplosions, long delayBetweenExplosions){}
+    @Comment({"Delay between fake explosions is in ticks (20 ticks = 1 second)"})
+    Mimic mimic = new Mimic(3, 100);
+
+    public Mimic getMimic() {
+        return mimic;
+    }
 
     public Silent getSilent() {
         return silent;

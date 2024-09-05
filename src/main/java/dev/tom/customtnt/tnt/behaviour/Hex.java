@@ -40,28 +40,37 @@ public class Hex implements ExplosionStrategy {
      * @param block
      */
     private void setHexData(Block block){
-        block.setMetadata(HEX_KEY, new FixedMetadataValue(CustomTNT.getInstance(), Bukkit.getCurrentTick()));
+        block.setMetadata(HEX_KEY, new FixedMetadataValue(CustomTNT.getInstance(), true));
     }
 
+    /**
+    * Call a fast explosion on hexed blocks
+     */
     public static void hexExplode(EntityExplodeEvent e){
         ConfigurableTNT.Hex hex = CustomTNT.getTntSettings().getHex();
         if(e.getEntity().hasMetadata(FastExplosion.FAST_KEY)) return; // Ignore fast explosions
+        if(e.blockList().isEmpty()) {
+            return;
+        }
         List<Block> hexedBlocks = e.blockList().stream().filter(b -> b.hasMetadata(HEX_KEY)).toList(); // Only loop hexed blocks
-        if(e.blockList().isEmpty()) return;
         int c = 0;
         for (Block b : hexedBlocks) {
-            long tickDelta = Bukkit.getCurrentTick() - b.getMetadata(HEX_KEY).getFirst().asLong();
-            if(tickDelta < hex.timeUntilBlockCanExplode()){
+            // No need to check expiry time as this is only called when the block is still hexed
+            // i.e. the runnable has not yet removed the hexed metadata
+            boolean isHexed = b.hasMetadata(HEX_KEY);
+            if(isHexed){
+
+                // This is from the original code
+                // I don't know why it's here
                 int i = c;
                 c++;
-                if(i > 3){
-                    return;
-                } else {
-                    Bukkit.getScheduler().runTaskLater(CustomTNT.getInstance(), () -> {
-                        FastExplosion fast = new FastExplosion();
-                        fast.explode(b.getLocation());
-                    }, 2 + new Random().nextInt(hex.maxRandomTicksUntilBlockExplodes()));
-                }
+                if(i > 3) return;
+
+                // Inflict double damage by spawning an extra explosion
+                Bukkit.getScheduler().runTaskLater(CustomTNT.getInstance(), () -> {
+                    FastExplosion fast = new FastExplosion();
+                    fast.explode(b.getLocation());
+                }, 2 + new Random().nextInt(hex.maxRandomTicksUntilBlockExplodes())); // I also don't know why there's a delay
             }
         }
 
