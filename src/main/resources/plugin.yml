@@ -3,4 +3,5 @@ version: '1.0.0'
 main: dev.tom.customtnt.CustomTNT
 api-version: '1.21'
 authors: [tom]
-depend: [ProtocolLib]
+softdepend:
+  - SilkSpawners

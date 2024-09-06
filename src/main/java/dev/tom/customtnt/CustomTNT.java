@@ -1,7 +1,6 @@
 package dev.tom.customtnt;
 
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.ProtocolManager;
+import de.dustplanet.util.SilkUtil;
 import de.exlll.configlib.*;
 import dev.jorel.commandapi.CommandAPI;
 import dev.jorel.commandapi.CommandAPIBukkitConfig;
@@ -10,7 +9,6 @@ import dev.tom.customtnt.files.ConfigurableTNT;
 import dev.tom.customtnt.listeners.TntExplosionListeners;
 import dev.tom.customtnt.listeners.TntPlaceListeners;
 import dev.tom.customtnt.listeners.TntPrimedListeners;
-import dev.tom.customtnt.packet.SoundPacket;
 import dev.tom.customtnt.tnt.TntBuilder;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -21,11 +19,10 @@ public final class CustomTNT extends JavaPlugin {
 
     public static ConfigurableTNT tntSettings;
     private static CustomTNT instance;
-    private static ProtocolManager protocolManager;
+    private static SilkUtil silkUtil;
 
     @Override
     public void onLoad() {
-        protocol();
         CommandAPI.onLoad(new CommandAPIBukkitConfig(this).silentLogs(true));
         new TntCommands().registerCommands(this);
     }
@@ -34,6 +31,7 @@ public final class CustomTNT extends JavaPlugin {
     public void onEnable() {
         instance = this;
         CommandAPI.onEnable();
+        silk();
 
         reloadConfigurationFiles();
 
@@ -46,9 +44,8 @@ public final class CustomTNT extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new TntPrimedListeners(), this);
     }
 
-    private void protocol(){
-        protocolManager = ProtocolLibrary.getProtocolManager();
-        new SoundPacket(this);
+    private void silk(){
+        silkUtil = SilkUtil.hookIntoSilkSpanwers();
     }
 
     public void reloadConfigurationFiles() {
@@ -80,7 +77,7 @@ public final class CustomTNT extends JavaPlugin {
         return instance;
     }
 
-    public static ProtocolManager getProto() {
-        return protocolManager;
+    public static SilkUtil getSilkUtil() {
+        return silkUtil;
     }
 }

@@ -111,11 +111,19 @@
             <artifactId>reflections</artifactId>
             <version>0.10.2</version>
         </dependency>
+<!--        Couldn't find a mirror for silk spawners-->
         <dependency>
-            <groupId>com.comphenix.protocol</groupId>
-            <artifactId>ProtocolLib</artifactId>
-            <version>5.1.0</version>
-            <scope>provided</scope>
+            <groupId>de.dustplanet</groupId>
+            <artifactId>silkspawners</artifactId>
+            <version>8.1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/SilkSpawners.jar</systemPath>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 </project>

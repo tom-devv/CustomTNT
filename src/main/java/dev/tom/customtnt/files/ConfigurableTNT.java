@@ -104,6 +104,20 @@ public class ConfigurableTNT {
     @Comment({"Delay between fake explosions is in ticks (20 ticks = 1 second)"})
     Mimic mimic = new Mimic(3, 100);
 
+    public record Lucky(float dropChance, String droppedSpawnerName, List<String> droppedSpawnerLore){}
+    @Comment({"""
+            Drop chance is a float value between 0 and 1.
+            1 means the spawner will always drop
+            0 means it will never drop.
+            
+            %name% will be replaced with the spawner type e.g "Zombie"
+            """})
+    Lucky lucky = new Lucky(0.5f, "<gold>Lucky Drop</gold><red>%name% spawner</red>", List.of("<red>A lucky spawner</red>"));
+
+    public Lucky getLucky() {
+        return lucky;
+    }
+
     public Mimic getMimic() {
         return mimic;
     }
