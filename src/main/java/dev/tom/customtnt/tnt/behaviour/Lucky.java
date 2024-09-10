@@ -19,44 +19,38 @@ public class Lucky implements ExplosionStrategy {
 
     @Override
     public void explode(TNTPrimed tnt, EntityExplodeEvent e) {
-        SilkUtil silk = SilkUtil.hookIntoSilkSpanwers();
+        SilkUtil silk = CustomTNT.getSilkUtil();
         if(silk == null) {
-            System.out.println("SilkUtil is null");
+            CustomTNT.getInstance().getLogger().severe("SilkSpawners is not installed, cannot handle lucky behaviour\nFix this");
             return;
         }
         List<Block> clonedBlocks = new ArrayList<>(e.blockList()); // List of blocks to be force removed
-        e.blockList().clear(); // Clear original block list
         ConfigurableTNT.Lucky lucky = CustomTNT.getTntSettings().getLucky();
-        for (Block block : e.blockList()) {
+        for (Block block : e.blockList()) { // Use original blockList here
 
-            String entityType = silk.getSpawnerEntityID(block);
-            // Add non-spawner blocks back to the list
-            if(entityType == null) {
-                System.out.println("Block is not a spawner");
+            // Check here to prevent thrown errors in SilkUtil
+            if(!(block.getState() instanceof CreatureSpawner)) {
                 clonedBlocks.add(block);
                 continue;
             }
 
-            System.out.println("EntityID is " + entityType);
+            String entityType = silk.getSpawnerEntityID(block);
+            // Add non-spawner blocks back to the list
+            if(!block.getType().equals(Material.SPAWNER) || entityType == null) {
+                clonedBlocks.add(block);
+                continue;
+            }
 
             double rand = Math.random();
             if(rand > lucky.dropChance()) continue; // dropChance = 0 -> always skip block
-            System.out.println("Rand: " + rand + " chance: " + lucky.dropChance());
+
             // Drop the spawner
-            ItemStack spawner = silk.newSpawnerItem(entityType, parseName(lucky.droppedSpawnerName(), entityType), 1, false);
+            ItemStack spawner = silk.newSpawnerItem(entityType, silk.getCustomSpawnerName(entityType), 1, false);
             block.getWorld().dropItem(block.getLocation(), spawner);
 
             block.setBlockData(Material.AIR.createBlockData(), true);
         }
+        e.blockList().clear(); // Clear original block list
         e.blockList().addAll(clonedBlocks); // Explode the non-spawner blocks after handling lucky
     }
-
-
-    private String parseName(String name, String entityName){
-        MiniMessage mm = MiniMessage.miniMessage();
-        name.replace("%name%", entityName);
-        return mm.deserialize(name).toString();
-    }
-
-
 }
