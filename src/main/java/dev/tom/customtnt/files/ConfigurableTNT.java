@@ -114,6 +114,17 @@ public class ConfigurableTNT {
             """})
     Lucky lucky = new Lucky(0.5f, "<gold>Lucky Drop</gold><red>%name% spawner</red>", List.of("<red>A lucky spawner</red>"));
 
+    public record Tactical(float spawnerDropChance){};
+    @Comment({"""
+            Drop chance should probably be set the same as the default chance inside
+            of the spawner plugin
+            """})
+    Tactical tactical = new Tactical(0.3f);
+
+    public Tactical getTactical() {
+        return tactical;
+    }
+
     public Lucky getLucky() {
         return lucky;
     }

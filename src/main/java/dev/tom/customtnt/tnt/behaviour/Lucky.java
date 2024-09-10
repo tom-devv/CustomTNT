@@ -15,6 +15,8 @@ import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.List;
 
+import static dev.tom.customtnt.tnt.TntUtil.handleChancedSpawner;
+
 public class Lucky implements ExplosionStrategy {
 
     @Override
@@ -27,8 +29,7 @@ public class Lucky implements ExplosionStrategy {
         List<Block> clonedBlocks = new ArrayList<>(e.blockList()); // List of blocks to be force removed
         ConfigurableTNT.Lucky lucky = CustomTNT.getTntSettings().getLucky();
         for (Block block : e.blockList()) { // Use original blockList here
-
-            // Check here to prevent thrown errors in SilkUtil
+            // Check to prevent thrown errors in SilkUtil
             if(!(block.getState() instanceof CreatureSpawner)) {
                 clonedBlocks.add(block);
                 continue;

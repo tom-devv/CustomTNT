@@ -17,7 +17,6 @@ public class Silent implements ExplosionStrategy {
         e.getEntity().getWorld().spawnParticle(Particle.EXPLOSION_EMITTER, e.getLocation(), 1);
         for (Block block : e.blockList()) {
             block.breakNaturally();
-//            block.setBlockData(Material.AIR.createBlockData());
         }
     }
 }
