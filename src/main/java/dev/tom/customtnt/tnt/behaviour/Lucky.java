@@ -15,8 +15,6 @@ import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.List;
 
-import static dev.tom.customtnt.tnt.TntUtil.handleChancedSpawner;
-
 public class Lucky implements ExplosionStrategy {
 
     @Override
