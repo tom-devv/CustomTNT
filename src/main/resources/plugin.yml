@@ -1,6 +1,6 @@
-name: CustomTNT
+name: MoreTNT
 version: '1.0.0'
-main: dev.tom.customtnt.CustomTNT
+main: dev.tom.moretnt.MoreTNT
 api-version: '1.21'
 authors: [tom]
 softdepend:

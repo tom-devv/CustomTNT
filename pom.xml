@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>dev.tom</groupId>
-    <artifactId>CustomTNT</artifactId>
+    <artifactId>MoreTNT</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
 
-    <name>CustomTNT</name>
+    <name>MoreTNT</name>
 
     <properties>
         <java.version>21</java.version>
@@ -40,11 +40,11 @@
                             <relocations>
                                 <relocation>
                                     <pattern>de.tr7zw.changeme.nbtapi</pattern>
-                                    <shadedPattern>dev.tom.customtnt.nbtapi</shadedPattern>
+                                    <shadedPattern>dev.tom.moretnt.nbtapi</shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>dev.jorel.commandapi</pattern>
-                                    <shadedPattern>dev.tom.customtnt.commandapi</shadedPattern>
+                                    <shadedPattern>dev.tom.moretnt.commandapi</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>
